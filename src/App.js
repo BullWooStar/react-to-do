@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState, useEffect } from "react";
+import TodoInput from "./components/TodoInput";
+import TodoList from "./components/TodoList";
 
 function App() {
+  const [todos, setTodos] = useState([1]);
+  // useEffect(() => {
+  //   async function readTodos() {
+  //     const response = await fetch("https://todo-api.roto.codes/choi");
+  //     const result = await response.json();
+  //     setTodos(result);
+  //   }
+  //   readTodos();
+  // }, []);
+
+  const readTodos = async () => {
+    const response = await fetch("https://todo-api.roto.codes/choi");
+    const result = await response.json();
+    setTodos(result);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>TO-DO List</h1>
+      <button onClick={readTodos}>readTodos</button>
+      <TodoInput todos={todos} />
+      <TodoList />
     </div>
   );
 }
