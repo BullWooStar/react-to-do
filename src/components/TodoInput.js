@@ -1,14 +1,14 @@
 import { useRef } from "react";
 import useApi from "../hooks/use-api";
 
-const TodoInput = () => {
+const TodoInput = ({ readTodos }) => {
   const newTodo = useRef();
   const { sendRequest: sendTodo } = useApi();
 
   const submitHandler = async (event) => {
     event.preventDefault();
     const enteredValue = newTodo.current.value;
-    sendTodo({
+    await sendTodo({
       url: "https://todo-api.roto.codes/choi",
       method: "POST",
       headers: {
@@ -18,12 +18,13 @@ const TodoInput = () => {
         content: `${enteredValue}`,
       }),
     });
+    readTodos();
     newTodo.current.value = "";
   };
   return (
     <form onSubmit={submitHandler}>
       <input type="text" ref={newTodo} />
-      <button>추가</button>
+      <button type="submit">추가</button>
     </form>
   );
 };
