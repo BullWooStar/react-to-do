@@ -8,6 +8,10 @@ const TodoInput = ({ readTodos }) => {
   const submitHandler = async (event) => {
     event.preventDefault();
     const enteredValue = newTodo.current.value;
+    if (enteredValue.trim() === "") {
+      alert("값을 입력하세요");
+      return;
+    }
     await sendTodo({
       url: "https://todo-api.roto.codes/choi",
       method: "POST",

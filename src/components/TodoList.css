@@ -1,0 +1,12 @@
+.todo-lists {
+  list-style: none;
+}
+
+.todo-content {
+  margin: 3rem;
+}
+
+.todo-content-done {
+  color: red;
+  text-decoration: line-through;
+}

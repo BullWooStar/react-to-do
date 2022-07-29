@@ -1,4 +1,5 @@
 import useApi from "../hooks/use-api";
+import "./TodoList.css";
 
 const TodoList = ({ todos, readTodos }) => {
   const { sendRequest: deleteTodo, sendRequest: toggleTodo } = useApi();
@@ -22,7 +23,7 @@ const TodoList = ({ todos, readTodos }) => {
   return todos.length === 0 ? (
     <p>할일을 입력하세요</p>
   ) : (
-    <ul>
+    <ul className="todo-lists">
       {todos.map((todo) => (
         <li key={todo._id}>
           <article>
@@ -33,7 +34,13 @@ const TodoList = ({ todos, readTodos }) => {
             >
               완료
             </button>
-            {todo.content}
+            <span
+              className={`todo-content ${
+                todo.isCompleted ? "todo-content-done" : null
+              }`}
+            >
+              {todo.content}
+            </span>
             <button
               onClick={() => {
                 deleteTodoHandler(todo._id);
