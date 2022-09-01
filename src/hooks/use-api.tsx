@@ -1,7 +1,7 @@
 const useApi = () => {
   const sendRequest = async (requestConfig: {
     url: string;
-    method: string | undefined;
+    method: string;
     headers?: {};
     body?: string;
   }) => {
