@@ -1,8 +1,13 @@
 const useApi = () => {
-  const sendRequest = async (requestConfig) => {
+  const sendRequest = async (requestConfig: {
+    url: string;
+    method: string | undefined;
+    headers?: {};
+    body?: string;
+  }) => {
     try {
       const response = await fetch(requestConfig.url, {
-        method: requestConfig.method ? requestConfig.method : null,
+        method: requestConfig.method ? requestConfig.method : "",
         headers: requestConfig.headers ? requestConfig.headers : {},
         body: requestConfig.body ? requestConfig.body : null,
       });

@@ -1,10 +1,14 @@
 import useApi from "../hooks/use-api";
 import "./TodoList.css";
+import Todo from "../models/Todo";
 
-const TodoList = ({ todos, readTodos }) => {
+const TodoList: React.FC<{ todos: Todo[]; readTodos: () => void }> = ({
+  todos,
+  readTodos,
+}) => {
   const { sendRequest: deleteTodo, sendRequest: toggleTodo } = useApi();
 
-  const deleteTodoHandler = async (id) => {
+  const deleteTodoHandler = async (id: string) => {
     await deleteTodo({
       url: `https://todo-api.roto.codes/choi/${id}`,
       method: "DELETE",
@@ -12,7 +16,7 @@ const TodoList = ({ todos, readTodos }) => {
     readTodos();
   };
 
-  const toggleTodoHandler = async (id) => {
+  const toggleTodoHandler = async (id: string) => {
     await toggleTodo({
       url: `https://todo-api.roto.codes/choi/${id}/toggle`,
       method: "PUT",
@@ -24,7 +28,7 @@ const TodoList = ({ todos, readTodos }) => {
     <p>할일을 입력하세요</p>
   ) : (
     <ul className="todo-lists">
-      {todos.map((todo) => (
+      {todos.map((todo: Todo) => (
         <li key={todo._id}>
           <article>
             <button

@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import useApi from "./hooks/use-api";
+import Todo from "./models/Todo";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const { sendRequest: deleteAllTodos } = useApi();
   const readTodos = async () => {
     try {

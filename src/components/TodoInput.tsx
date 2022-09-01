@@ -1,13 +1,13 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import useApi from "../hooks/use-api";
 
-const TodoInput = ({ readTodos }) => {
-  const newTodo = useRef();
+const TodoInput: React.FC<{ readTodos: () => void }> = ({ readTodos }) => {
+  const newTodo = useRef<HTMLInputElement>(null);
   const { sendRequest: sendTodo } = useApi();
 
-  const submitHandler = async (event) => {
+  const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    const enteredValue = newTodo.current.value;
+    const enteredValue = newTodo.current!.value;
     if (enteredValue.trim() === "") {
       alert("값을 입력하세요");
       return;
@@ -23,7 +23,7 @@ const TodoInput = ({ readTodos }) => {
       }),
     });
     readTodos();
-    newTodo.current.value = "";
+    newTodo.current!.value = "";
   };
   return (
     <form onSubmit={submitHandler}>
