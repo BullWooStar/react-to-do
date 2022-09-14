@@ -1,9 +1,30 @@
 import React, { useRef } from "react";
-import useApi from "../hooks/use-api";
+import { useMutation, useQueryClient } from "react-query";
 
-const TodoInput: React.FC<{ readTodos: () => void }> = ({ readTodos }) => {
+async function addTodo(enteredValue: any) {
+  await fetch("https://todo-api.roto1.codes/choi", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      content: `${enteredValue}`,
+    }),
+  });
+}
+
+const TodoInput: React.FC = () => {
   const newTodo = useRef<HTMLInputElement>(null);
-  const { sendRequest: sendTodo } = useApi();
+  const queryClient = useQueryClient();
+
+  const addTodoMutation = useMutation(
+    (inputValue: string) => addTodo(inputValue),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("todoList");
+      },
+    }
+  );
 
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -12,17 +33,7 @@ const TodoInput: React.FC<{ readTodos: () => void }> = ({ readTodos }) => {
       alert("값을 입력하세요");
       return;
     }
-    await sendTodo({
-      url: "https://todo-api.roto.codes/choi",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        content: `${enteredValue}`,
-      }),
-    });
-    readTodos();
+    addTodoMutation.mutate(newTodo.current!.value);
     newTodo.current!.value = "";
   };
   return (
